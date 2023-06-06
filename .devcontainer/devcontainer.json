@@ -1,3 +1,5 @@
+// based on https://ddev.readthedocs.io/en/latest/users/install/ddev-installation/#github-codespaces
+
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/universal
 {
@@ -10,16 +12,24 @@
         "ghcr.io/devcontainers/features/docker-in-docker:1": {},
         "ghcr.io/ddev/ddev/install-ddev:latest": {}
     },
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "uname -a",
-
-	// Configure tool-specific properties.
-	// "customizations": {},
-
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+    
+    "portsAttributes": {
+        "3306": {
+          "label": "database"
+        },
+        "8027": {
+          "label": "mailhog"
+        },
+        "8036": {
+          "label": "phpmyadmin"
+        },
+        "8080": {
+          "label": "web http"
+        },
+        "8443": {
+          "label": "web https"
+        }
+      },
+      "postCreateCommand": "bash -c 'ddev config global --omit-containers=ddev-router && ddev config --auto && ddev debug download-images'"
+    
 }
